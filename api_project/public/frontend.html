@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Request</title>
+</head>
+<body>
+    <h1>REST API Tester</h1>
+
+    <!-- Input Form -->
+    <form id="apiForm">
+        <label for="jsonInput">Enter JSON:</label><br>
+        <textarea id="jsonInput" rows="5" cols="50" placeholder='{"data": ["A", "1", "b", "2", "Z"]}'></textarea><br><br>
+        <button type="button" onclick="sendRequest()">Send Request</button>
+    </form>
+
+    <!-- Output Section -->
+    <h2>Response:</h2>
+    <pre id="responseOutput"></pre>
+
+    <!-- JavaScript to handle the request -->
+    <script>
+        function sendRequest() {
+            const jsonInput = document.getElementById('jsonInput').value;
+
+            fetch('index.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonInput
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('responseOutput').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                document.getElementById('responseOutput').textContent = 'Error: ' + error.message;
+            });
+        }
+    </script>
+</body>
+</html>
